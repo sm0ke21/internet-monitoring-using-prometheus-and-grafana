@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cosmote-monitor
+  namespace: monitoring
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: speedtest
+            image: k8s.sm0ke.local:5000/speedtest:2
+          restartPolicy: OnFailure
+          dnsConfig:
+            options:
+            - name: ndots
+              value: "1"
